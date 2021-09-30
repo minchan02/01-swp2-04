@@ -30,30 +30,38 @@ def writeScoreDB(scdb):
 def doScoreDB(scdb):
     while(True):
         inputstr = (input("Score DB > "))
+        
         if inputstr == "": continue
         parse = inputstr.split(" ")
+        
         if parse[0] == 'add':
             record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
             scdb += [record]
+            
         elif parse[0] == 'del':
             for p in scdb:
                 if p['Name'] == parse[1]:
                     scdb.remove(p)    
                     break
+                    
         elif parse[0] == 'show':
             sortKey ='Name' if len(parse) == 1 else parse[1]
             showScoreDB(scdb, sortKey)
+            
         elif parse[0] == 'find':
             name = input("Name:")
             for i in scdb:
-                if i["name"] == name:
-                    print("Name:", + name)
+                if i["Name"] == name:
+                    print("Name:", name)
+                    
         elif parse[0] == 'inc':
             for k in scdb:
                 if k['Name'] == parse[1]:
                     k['Score'] += int(parse[2])
+                    
         elif parse[0] == 'quit':
             break
+            
         else:
             print("Invalid command: " + parse[0])
 
