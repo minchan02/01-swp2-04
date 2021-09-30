@@ -74,3 +74,13 @@ def showScoreDB(scdb, keyname):
 scoredb = readScoreDB()
 doScoreDB(scoredb)
 writeScoreDB(scoredb)
+
+
+"""
+2021-02-sw2-01-minchan481/assignment3_20212972.py
+
+Line 38 in 3a0f3ea
+
+ elif parse[0] == 'del': 
+해당 코드가 모든 사람을 제거하지 못하고 있습니다.
+"""
