@@ -1,4 +1,4 @@
-import pickle
+import pickle #전체적인 예외처리 부탁드립니다.
 
 dbfilename = 'test3_4.dat'
 
@@ -35,7 +35,7 @@ def doScoreDB(scdb):
         if parse[0] == 'add':
             record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
             scdb += [record]
-        elif parse[0] == 'del':
+        elif parse[0] == 'del': 
             for p in scdb:
                 if p['Name'] == parse[1]:
                     scdb.remove(p)    
@@ -45,7 +45,7 @@ def doScoreDB(scdb):
         elif parse[0] == 'find':
             for p in scdb:
                 if p['Name'] == parse[1]:
-                    for attr in sorted(p):
+                    for attr in sorted(p): #show와 find의 출력 부분이 유사해서 따로 함수로 빼면 이후 유지보수 시 좋을 것 같습니다.
                         print(attr + "=" + str(p[attr]), end=' ')
                     print()
         elif parse[0] == 'inc':
@@ -66,3 +66,19 @@ def showScoreDB(scdb, keyname):
         for attr in sorted(p):
             print(attr + "=" + str(p[attr]), end=' ')
         print()
+"""        
+2021-02-sw2-01-ozloz8/assignment3_20212971.py
+
+Line 38 in d7b7be2
+
+ elif parse[0] == 'del': 
+모든 Name을 제거하지 못합니다.
+
+add Kim 1 11
+add Kim 11 111
+add Kim 1111 1111
+
+del Kim
+
+show
+"""
