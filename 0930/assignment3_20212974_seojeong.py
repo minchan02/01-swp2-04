@@ -1,4 +1,4 @@
-import pickle
+import pickle #전체적으로 예외처리 부탁드립니다.
 
 dbfilename = 'assignment3.dat'
 
@@ -38,7 +38,7 @@ def doScoreDB(scdb):
             else:
                 record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
                 scdb += [record]
-        elif parse[0] == 'del':
+        elif parse[0] == 'del': #db내에 순서대로 Lee, Kim이 있다고 가정하면, Kim이 있음에도 불구하고 지우지 못합니다.
             for p in scdb:
                 if p['Name'] == parse[1]:
                     scdb.remove(p)
@@ -51,7 +51,7 @@ def doScoreDB(scdb):
                     for attr in sorted(p):
                         print(attr + "=" + p[attr], end=' ')
                     print()
-        elif parse[0] == 'inc':
+        elif parse[0] == 'inc': #db에 있음에도 inc업데이트를 하지 못합니다.
             for p in scdb:
                 if p['Name'] == parse[1]:
                     p['Score'] = str(int(p['Score']) + int(parse[2]))
