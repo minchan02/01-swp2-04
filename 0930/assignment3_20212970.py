@@ -1,6 +1,6 @@
 import pickle
 
-dbfilename = 'assignment3'
+dbfilename = 'assignment3.dat'
 
 def readScoreDB():
     try:
