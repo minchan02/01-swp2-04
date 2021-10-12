@@ -4,7 +4,10 @@ import random
 
 def seqsearch(nbrs, target):
     for i in range(0, len(nbrs)):
-        if (target == nbrs[i]):
+        '''수정 전 코드
+        if (target == nbrs[i]):''' # 괄호를 제거하는 것이 좋은 것 같네요. pycharm에서 제거하라고 이야기 합니다.
+        # 수정 후 코드
+        if target == nbrs[i]:
             return i
     return -1
 
