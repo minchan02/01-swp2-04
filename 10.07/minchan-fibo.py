@@ -6,7 +6,7 @@ def fibo(n):
         return n
     return fibo(n - 1) + fibo(n - 2)
 
-def iterfibo(n):
+def iterfibo(n): # 변수를 2개만 사용해서 코드를 작성할 수도 있을 것 같습니다.
     if n <= 1:
         return n
     num1 = 0
