@@ -68,6 +68,7 @@ class ScoreDB(QWidget):
 
         # 두번째 행 설정
         hbox2 = QHBoxLayout()
+        hbox2.stretch(1)
         hbox2.addWidget(self.amount)
         hbox2.addWidget(self.amountEdit)
         hbox2.addWidget(self.key)
@@ -75,6 +76,7 @@ class ScoreDB(QWidget):
 
         # 세번째 행 설정
         hbox3 = QHBoxLayout()
+        hbox3.stretch(1)
         hbox3.addWidget(self.addButton)
         hbox3.addWidget(self.delButton)
         hbox3.addWidget(self.findButton)
@@ -111,7 +113,7 @@ class ScoreDB(QWidget):
             return
 
         try:
-            self.scoredb =  pickle.load(fH)
+            self.scoredb = pickle.load(fH)
         except:
             pass
         else:
@@ -125,7 +127,8 @@ class ScoreDB(QWidget):
         fH.close()
 
     def showScoreDB(self):
-        a = self.scoredb
+        keyw = self.keyset.currentText()
+        a = sorted(self.scoredb, key=lambda x: x[keyw])
         r = ''
         for i in a:
             for j in i.items():
@@ -136,36 +139,35 @@ class ScoreDB(QWidget):
     def buttonClicked(self):
         sender = self.sender()
         button = sender.text()
-        scoredbCopy = copy.deepcopy(self.scoredb)
         r = ''
-        if button == 'add':
+
+        if button == 'Add':
             record = {'Name': self.nameEdit.text(), 'Age': self.ageEdit.text(), 'Score': self.scoreEdit.text()}
-            self.scoredb += record
+            self.scoredb.append(record)
             self.showScoreDB()
 
-        elif button == 'del':
-            for p in scoredbCopy:
+        if button == 'Del':
+            for p in self.scoredb:
                 if p['Name'] == self.nameEdit.text():
                     self.scoredb.remove(p)
             self.showScoreDB()
 
-        elif button == 'find':
-            for p in scoredbCopy:
+        if button == 'Find':
+            for p in self.scoredb:
                 if p['Name'] == self.nameEdit.text():
-                    for attr in sorted(p):
+                    for attr in p:
                         r += attr + "=" + p[attr] + '\t'
                     r += '\n'
             self.textresult.setText(r)
 
-        elif button == 'inc':
-            for p in scoredbCopy:
+        if button == 'Inc':
+            for p in self.scoredb:
                 if p['Name'] == self.nameEdit.text():
                     p['Score'] = str(int(p['Score']) + int(self.amountEdit.text()))
             self.showScoreDB()
 
-        elif button == 'show':
+        if button == 'show':
             self.showScoreDB()
-
 
 
 if __name__ == '__main__':    
