@@ -1,3 +1,20 @@
+"""
+[Add 오류]
+아무런 입력이 없을 경우에도 add가 됩니다.
+
+ex. 이름, 나이, score에 아무런 값을 입력하지 않은 경우
+
+[Add 오류 2]
+잘못된 입력이 들어가면 프로그램이 종료됩니다.
+
+ex. 나이만 입력하고 add한 경우
+
+[Find 출력 내역]
+pdf에 show내역도 출력하라고 되어있지만, 사진으로는 find내역만 있기 때문에 find를 할 경우 find한 내역만 출력 부탁드립니다.
+
+"""
+
+
 import pickle
 import sys
 from PyQt5.QtWidgets import (QWidget, QPushButton,
@@ -191,3 +208,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ScoreDB()
     sys.exit(app.exec_())
+
