@@ -1,4 +1,4 @@
-import pickle
+import pickle #모든 기능이 동작하지 않습니다. 확인 부탁드립니다.
 import sys
 import copy
 from PyQt5.QtWidgets import (QWidget, QPushButton,
@@ -166,7 +166,7 @@ class ScoreDB(QWidget):
                     p['Score'] = str(int(p['Score']) + int(self.amountEdit.text()))
             self.showScoreDB()
 
-        if button == 'show':
+        if button == 'show': #show할 경우 출력되는 record의 format이 동일하지 않습니다. 확인 부탁드립니다.
             self.showScoreDB()
 
 
