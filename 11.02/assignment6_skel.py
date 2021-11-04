@@ -137,10 +137,13 @@ class ScoreDB(QWidget):
             age = self.ageEdit.text()
             score = self.scoreEdit.text()
 
-            dict['Name'] = name
-            dict['Age'] = age
-            dict['Score'] = score
-            self.scoredb.append(dict)
+            if (name != "") and (age != "") and (score != ""):
+                dict['Name'] = name
+                dict['Age'] = age
+                dict['Score'] = score
+                self.scoredb.append(dict)
+
+
 
             self.result.clear()
             self.showScoreDB()
@@ -163,8 +166,6 @@ class ScoreDB(QWidget):
                 if i['Name'] == self.nameEdit.text():
                     self.result.append('Age=' + str(i['Age'] )+ "    " + 'Name=' + str(i['Name']) + "    " + 'Score=' + str(i['Score']) + "    ")
 
-            self.showScoreDB()
-
         if sender.text() == 'Inc':
             for i in self.scoredb:
                 if i['Name'] == self.nameEdit.text():
@@ -186,7 +187,7 @@ class ScoreDB(QWidget):
             self.result.clear()
             self.showScoreDB()
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ScoreDB()
     sys.exit(app.exec_())
