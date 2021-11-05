@@ -150,6 +150,7 @@ class ScoreDB(QWidget):
             for p in self.scoredb:
                 if p['Name'] == self.nameEdit.text():
                     self.scoredb.remove(p)
+                    break # Del 할때 하나씩만 지우게 하시라 하셔서 break문을 넣어서 하나씩 지우도록 수정했습니다
             self.showScoreDB()
 
         if button == 'Find':
@@ -168,10 +169,9 @@ class ScoreDB(QWidget):
 
         if button == 'show': #show할 경우 출력되는 record의 format이 동일하지 않습니다. 확인 부탁드립니다.
             self.showScoreDB()
+            # show를 할 경우 scoredb 배열값 자체가 정렬이 되어야 하는데 복사된 값이 정렬되어 보여지는 거 같아 이슈가 달린 것 같습니다!
 
-
-if __name__ == '__main__':    
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ScoreDB()
     sys.exit(app.exec_())
-
