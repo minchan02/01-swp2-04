@@ -1,4 +1,4 @@
-from calcFunctions import *
+import calcFunctions
 
 numPadList = [
     '7', '8', '9',
@@ -14,23 +14,28 @@ operatorList = [
     'C',
 ]
 
-constantValue = [
-    ('pi', '3.141592'),
-    ('빛의 이동 속도 (m/s)', '3E+8'),
-    ('소리의 이동 속도 (m/s)', '340'),
-    ('태양과의 평균 거리 (km)', '1.5E+8'),
+constantList = [
+    'pi',
+    '빛의 이동 속도 (m/s)',
+    '소리의 이동 속도 (m/s)',
+    '태양과의 평균 거리 (km)',
 ]
 
-constantList = [x[0] for x in constantValue]
-
-functionMap = [
-    ('factorial (!)', factorial),
-    ('-> binary', decToBin),
-    ('binary -> dec', binToDec),
-    ('-> roman', decToRoman),
-    ('roman -> dec', romanToDec),
-
+functionList = [
+    'factorial (!)',
+    '-> binary',
+    'binary -> dec',
+    '-> roman',
+    'roman -> dec'
 ]
 
-functionList = [x[0] for x in functionMap]
+constant_dic = {'pi' : '3.141592',
+                '빛의 이동 속도 (m/s)' : '3E+8',
+                '소리의 이동 속도 (m/s)' : '340',
+                '태양과의 평균 거리 (km)' : '1.5E+8'}
 
+function_dic = {'factorial (!)': calcFunctions.factorial ,
+                '-> binary' : calcFunctions.decToBin ,
+                'binary -> dec' : calcFunctions.binToDec ,
+                '-> roman' : calcFunctions.decToRoman,
+                'roman -> dec' : calcFunctions.romanToDec }
