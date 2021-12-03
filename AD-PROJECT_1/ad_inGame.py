@@ -15,7 +15,7 @@ class PWGame(QWidget):
         life.setFrameShape(QFrame.StyledPanel)
 
         layout1 = QVBoxLayout()
-        life_label = QLabel('♥ ♥ ♥')
+        life_label = QLabel('♥ ♥ ♥') #life를 라벨로 해도 되는지 모르겠네요 .. 
         life_label.setFont(QtGui.QFont('Noto Sans KR', 20))
         layout1.addWidget(life_label)
         life.setLayout(layout1)
@@ -67,7 +67,7 @@ class PWGame(QWidget):
         self.setGeometry(600, 200, 400, 400)
         self.show()
 
-    def gameOver(self): #게임 오버됐을 때 창 뜨게 만들어본 함수
+    def gameOver(self): #혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
         if result == QMessageBox.Yes:
             self.inGame
