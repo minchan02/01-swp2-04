@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5 import QtGui
+from ad_inGame import PWGame
 
 class MainWidget(QWidget):
     def __init__(self):
