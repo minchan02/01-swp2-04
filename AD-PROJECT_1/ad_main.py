@@ -12,8 +12,9 @@ class MainWidget(QWidget):
 
         start_button = QPushButton('Start')  # 시작버튼
         start_button.resize(100, 500)
-        #start_button.clicked.connect(inGame) << 버튼 연결을 못하겠습ㄴㅣ다 ........
-
+        start_button.clicked.connect(self.start_button_clicked)
+        self.show()
+        
         title_label = QLabel('카이사르 암호 게임')  # 제목 라벨
         font = title_label.font()
         font.setBold(True)
@@ -42,6 +43,10 @@ class MainWidget(QWidget):
         self.setWindowTitle("카이사르 암호 게임")
         self.setGeometry(600,200,400,400)
         self.show()
+        
+    def start_button_clicked(self):
+        self.close()
+        self.start = PWGame()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
