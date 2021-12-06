@@ -24,8 +24,9 @@ class PWGame(QWidget):
         life.setFrameShape(QFrame.StyledPanel)
 
         layout1 = QVBoxLayout()
-        life_label = QLabel('♥ ♥ ♥') #life를 라벨로 해도 되는지 모르겠네요 ..
+        life_label = QLabel('♥ ♥ ♥')
         life_label.setFont(QtGui.QFont('Noto Sans KR', 20))
+        life_label.setAlignment(Qt.AlignCenter)
         layout1.addWidget(life_label)
         life.setLayout(layout1)
 
@@ -36,6 +37,7 @@ class PWGame(QWidget):
         layout2 = QVBoxLayout()
         score_value = QLabel('0')
         score_value.setFont(QtGui.QFont('Noto Sans KR', 20))
+        score_value.setAlignment(Qt.AlignCenter)
         layout2.addWidget(score_value)
         score.setLayout(layout2)
 
@@ -44,6 +46,7 @@ class PWGame(QWidget):
         time_label = QLabel('Time:')
         time_value = QLabel('0:15') # 나중에 시간 설정
         time_value.setFont(QtGui.QFont('Noto Sans KR', 20))
+        time_value.setAlignment(Qt.AlignCenter)
         time = QFrame()
         time.setFrameShape(QFrame.StyledPanel)
         layout3.addWidget(time_value)
@@ -53,7 +56,7 @@ class PWGame(QWidget):
         layout4 = QHBoxLayout()
         n_value = QLabel('4', self) # n 값은 나중에 random으로 조절
         n_value.setFont(QtGui.QFont('Noto Sans KR', 20))
-        n_value.setAlignment(Qt.AlignHCenter) # 가운데 정렬
+        n_value.setAlignment(Qt.AlignCenter) # 가운데 정렬
         n = QFrame()
         n.setFrameShape(QFrame.StyledPanel)
         layout4.addWidget(n_value)
@@ -66,7 +69,7 @@ class PWGame(QWidget):
         # 카이사르 암호화로 나온 암호
         self.pwd = QLabel(self.lock.encryption(GuessWord, 3), self) # 3은 나중에 n으로 바꿈
         self.pwd.setFont(QtGui.QFont('Noto Sans KR', 20))
-        self.pwd.setAlignment(Qt.AlignHCenter) # 가운데 정렬
+        self.pwd.setAlignment(Qt.AlignCenter) # 가운데 정렬
         str.setFrameShape(QFrame.StyledPanel)
         layout5.addWidget(self.pwd)
         str.setLayout(layout5)
