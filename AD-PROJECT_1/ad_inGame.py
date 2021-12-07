@@ -66,8 +66,9 @@ class PWGame(QWidget):
         # 암호화된 문자열
         layout5 = QHBoxLayout()
         str = QFrame()
+        
         # 카이사르 암호화로 나온 암호
-        self.pwd = QLabel(self.lock.encryption(GuessWord, 3), self) # 3은 나중에 n으로 바꿈
+        self.pwd = QLabel(self.lock.encryption(GuessWord, 3)) # 3은 나중에 n으로 바꿈
         self.pwd.setFont(QtGui.QFont('Noto Sans KR', 20))
         self.pwd.setAlignment(Qt.AlignCenter) # 가운데 정렬
         str.setFrameShape(QFrame.StyledPanel)
@@ -77,6 +78,10 @@ class PWGame(QWidget):
         # 답
         answer_label = QLabel('답:')
         answer = QLineEdit()
+        
+        # 상태창
+        self.message = QLineEdit()
+        self.message.setReadOnly(True)
 
         # spliter 설정
 
@@ -95,6 +100,7 @@ class PWGame(QWidget):
         splitter3.addWidget(splitter1)
         splitter3.addWidget(n)
         splitter3.addWidget(str)
+        splitter3.addWidget(self.message)
         splitter3.addWidget(splitter2)
 
         hbox.addWidget(splitter3)
@@ -103,6 +109,16 @@ class PWGame(QWidget):
         self.setWindowTitle("Caesar Cipher Game")
         self.setGeometry(600, 200, 400, 400)
         self.show()
+        
+    # 정답 확인 버튼이 눌리면 실행할 함수
+    def answerButtonClicked(self):
+        GuessWord = self.word.randWord()
+        self.pwd.setText(self.lock.encryption(GuessWord, 3))  # 3은 이후에 n으로 대체
+        if self.lock.encryption(GuessWord, 3) == self.answer.text():
+            # 사용자의 복호화 성공 여부에 따라 상태창 업데이트
+            self.message.setText("Successfully decrypted!")
+        else:
+            self.message.setText("Failed to unlock.")
 
     def gameOver(self): #혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
