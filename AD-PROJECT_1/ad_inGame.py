@@ -5,21 +5,26 @@ from PyQt5 import QtGui
 from function import LockString
 from word import Word
 
+
 class PWGame(QWidget):
     def __init__(self):
         super(PWGame, self).__init__()
         self.lock = LockString()
         self.word = Word('Words.txt')
+        
+        # 타이머 생성
+        self.timer = QTimer(self)
+        self.sec = 15
+        
         self.inGame()
-
 
     def inGame(self):
         hbox = QHBoxLayout()
 
         # word setting
         GuessWord = self.word.randWord()
+        
         # label setting
-
         life = QFrame()
         life.setFrameShape(QFrame.StyledPanel)
 
@@ -35,7 +40,8 @@ class PWGame(QWidget):
         score.setFrameShape(QFrame.StyledPanel)
 
         layout2 = QVBoxLayout()
-        score_value = QLabel('0')
+        score_value = QLabel()
+        score_value.setNum(0)
         score_value.setFont(QtGui.QFont('Noto Sans KR', 20))
         score_value.setAlignment(Qt.AlignCenter)
         layout2.addWidget(score_value)
@@ -43,10 +49,13 @@ class PWGame(QWidget):
 
         # time
         layout3 = QVBoxLayout()
-        time_label = QLabel('Time:')
-        time_value = QLabel('0:15') # 나중에 시간 설정
-        time_value.setFont(QtGui.QFont('Noto Sans KR', 20))
-        time_value.setAlignment(Qt.AlignCenter)
+        self.timer.start(1000) # 타이머 시작
+        self.timer.timeout.connect(self.setTimer)
+        self.time_label = QLabel('Time:')
+        self.time_value = QLabel()
+        self.time_value.setNum(15)
+        self.time_value.setFont(QtGui.QFont('Noto Sans KR', 20))
+        self.time_value.setAlignment(Qt.AlignCenter)
         time = QFrame()
         time.setFrameShape(QFrame.StyledPanel)
         layout3.addWidget(time_value)
@@ -62,7 +71,6 @@ class PWGame(QWidget):
         layout4.addWidget(n_value)
         n.setLayout(layout4)
 
-
         # 암호화된 문자열
         layout5 = QHBoxLayout()
         str = QFrame()
@@ -77,7 +85,7 @@ class PWGame(QWidget):
 
         # 답
         answer_label = QLabel('답:')
-        answer = QLineEdit()
+        self.answer = QLineEdit()
         
         # 상태창
         self.message = QLineEdit()
@@ -89,12 +97,12 @@ class PWGame(QWidget):
         splitter1.addWidget(life)
         splitter1.addWidget(score_label)
         splitter1.addWidget(score)
-        splitter1.addWidget(time_label)
+        splitter1.addWidget(self.time_label)
         splitter1.addWidget(time)
 
         splitter2 = QSplitter(Qt.Horizontal)
         splitter2.addWidget(answer_label)
-        splitter2.addWidget(answer)
+        splitter2.addWidget(self.answer)
 
         splitter3 = QSplitter(Qt.Vertical)
         splitter3.addWidget(splitter1)
@@ -119,6 +127,13 @@ class PWGame(QWidget):
             self.message.setText("Successfully decrypted!")
         else:
             self.message.setText("Failed to unlock.")
+            
+    def setTimer(self):
+        if self.sec == 0: # or 정답 버튼이 눌리면:
+            self.sec = 15
+            self.answerButtonClicked()
+        self.time_value.setNum(self.sec)
+        self.sec -= 1
 
     def gameOver(self): #혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
