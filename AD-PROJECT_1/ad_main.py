@@ -7,7 +7,51 @@ from word import Word
 import random
 from guess import Guess
 
+class MainWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
 
+    def initUI(self):
+
+        start_button = QPushButton('Start')  # 시작버튼
+        start_button.resize(100, 500)
+        start_button.clicked.connect(self.start_button_clicked)
+        self.show()
+
+        title_label = QLabel('카이사르 암호 게임')  # 제목 라벨
+        font = title_label.font()
+        font.setBold(True)
+        title_label.setFont(QtGui.QFont('Noto Sans KR',20))
+        title_label.setAlignment(Qt.AlignHCenter)
+
+        hbox1 = QHBoxLayout()
+        hbox1.addStretch(1)
+        hbox1.addWidget(title_label)
+        hbox1.addStretch(1)
+
+        hbox2 = QHBoxLayout()
+        hbox2.addStretch(1)
+        hbox2.addWidget(start_button)
+        hbox2.addStretch(1)
+
+        vbox = QVBoxLayout()
+        vbox.addStretch(1)
+        vbox.addLayout(hbox1)
+        vbox.addStretch(2)
+        vbox.addLayout(hbox2)
+        vbox.addStretch(1)
+
+        self.setLayout(vbox)
+
+        self.setWindowTitle("Caesar Cipher Game")
+        self.setGeometry(600,200,400,400)
+        self.show()
+
+    def start_button_clicked(self): # 시작 버튼 연결 함수
+        self.close()
+        self.start = PWGame()
+        
 class PWGame(QWidget):
     def __init__(self):
         super(PWGame, self).__init__()
@@ -137,9 +181,11 @@ class PWGame(QWidget):
             # 사용자의 복호화 성공 여부에 따라 상태창 업데이트
             self.message.setText("Successfully decrypted!")
             self.Finished = True
+            self.answer.clear()
         else:
             self.message.setText("Failed to unlock.")
             self.life -= 1
+            self.answer.clear()
 
         # 목숨확인
         if self.life <= 0:
@@ -161,16 +207,16 @@ class PWGame(QWidget):
         self.time_value.setNum(self.sec)
         self.sec -= 1
 
-    def gameOver(self):  # 혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
+    def gameOver(self):  # 게임 오버 함수
         self.score_value.setNum(self.score)
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
         if result == QMessageBox.Yes:
-            self.inGame()
+            MainWidget.start_button_clicked(self)
         else:
             self.close()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = PWGame()
+    ex = MainWidget()
     sys.exit(app.exec_())
