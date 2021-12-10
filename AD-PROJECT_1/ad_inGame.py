@@ -4,6 +4,7 @@ from PyQt5.QtCore import *
 from PyQt5 import QtGui
 from function import LockString
 from word import Word
+import random
 
 
 class PWGame(QWidget):
@@ -11,11 +12,11 @@ class PWGame(QWidget):
         super(PWGame, self).__init__()
         self.lock = LockString()
         self.word = Word('Words.txt')
-        
+
         # 타이머 생성
         self.timer = QTimer(self)
         self.sec = 15
-        
+
         self.inGame()
 
     def inGame(self):
@@ -23,7 +24,7 @@ class PWGame(QWidget):
 
         # word setting
         GuessWord = self.word.randWord()
-        
+
         # label setting
         life = QFrame()
         life.setFrameShape(QFrame.StyledPanel)
@@ -49,7 +50,7 @@ class PWGame(QWidget):
 
         # time
         layout3 = QVBoxLayout()
-        self.timer.start(1000) # 타이머 시작
+        self.timer.start(1000)  # 타이머 시작
         self.timer.timeout.connect(self.setTimer)
         self.time_label = QLabel('Time:')
         self.time_value = QLabel()
@@ -58,14 +59,18 @@ class PWGame(QWidget):
         self.time_value.setAlignment(Qt.AlignCenter)
         time = QFrame()
         time.setFrameShape(QFrame.StyledPanel)
-        layout3.addWidget(time_value)
+        layout3.addWidget(self.time_value)
         time.setLayout(layout3)
+
+        # 랜덤 n 생성
+        global random_n
+        random_n = random.randrange(1, 6)
 
         # n
         layout4 = QHBoxLayout()
-        n_value = QLabel('4', self) # n 값은 나중에 random으로 조절
+        n_value = QLabel(str(random_n), self)
         n_value.setFont(QtGui.QFont('Noto Sans KR', 20))
-        n_value.setAlignment(Qt.AlignCenter) # 가운데 정렬
+        n_value.setAlignment(Qt.AlignCenter)  # 가운데 정렬
         n = QFrame()
         n.setFrameShape(QFrame.StyledPanel)
         layout4.addWidget(n_value)
@@ -73,20 +78,20 @@ class PWGame(QWidget):
 
         # 암호화된 문자열
         layout5 = QHBoxLayout()
-        str = QFrame()
-        
+        e_str = QFrame()
+
         # 카이사르 암호화로 나온 암호
-        self.pwd = QLabel(self.lock.encryption(GuessWord, 3)) # 3은 나중에 n으로 바꿈
+        self.pwd = QLabel(self.lock.encryption(GuessWord, random_n))
         self.pwd.setFont(QtGui.QFont('Noto Sans KR', 20))
-        self.pwd.setAlignment(Qt.AlignCenter) # 가운데 정렬
-        str.setFrameShape(QFrame.StyledPanel)
+        self.pwd.setAlignment(Qt.AlignCenter)  # 가운데 정렬
+        e_str.setFrameShape(QFrame.StyledPanel)
         layout5.addWidget(self.pwd)
-        str.setLayout(layout5)
+        e_str.setLayout(layout5)
 
         # 답
         answer_label = QLabel('답:')
         self.answer = QLineEdit()
-        
+
         # 상태창
         self.message = QLineEdit()
         self.message.setReadOnly(True)
@@ -107,7 +112,7 @@ class PWGame(QWidget):
         splitter3 = QSplitter(Qt.Vertical)
         splitter3.addWidget(splitter1)
         splitter3.addWidget(n)
-        splitter3.addWidget(str)
+        splitter3.addWidget(e_str)
         splitter3.addWidget(self.message)
         splitter3.addWidget(splitter2)
 
@@ -117,33 +122,33 @@ class PWGame(QWidget):
         self.setWindowTitle("Caesar Cipher Game")
         self.setGeometry(600, 200, 400, 400)
         self.show()
-        
+
     # 정답 확인 버튼이 눌리면 실행할 함수
     def answerButtonClicked(self):
         GuessWord = self.word.randWord()
-        self.pwd.setText(self.lock.encryption(GuessWord, 3))  # 3은 이후에 n으로 대체
-        if self.lock.encryption(GuessWord, 3) == self.answer.text():
+        self.pwd.setText(self.lock.encryption(GuessWord, random_n))
+        if self.lock.encryption(GuessWord, random_n) == self.answer.text():
             # 사용자의 복호화 성공 여부에 따라 상태창 업데이트
             self.message.setText("Successfully decrypted!")
         else:
             self.message.setText("Failed to unlock.")
-            
+
     def setTimer(self):
-        if self.sec == 0: # or 정답 버튼이 눌리면:
+        if self.sec == 0:  # or 정답 버튼이 눌리면:
             self.sec = 15
             self.answerButtonClicked()
         self.time_value.setNum(self.sec)
         self.sec -= 1
 
-    def gameOver(self): #혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
+    def gameOver(self):  # 혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
         if result == QMessageBox.Yes:
             self.inGame()
         else:
             self.close()
 
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = PWGame()
     sys.exit(app.exec_())
-
