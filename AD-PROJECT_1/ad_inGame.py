@@ -75,7 +75,7 @@ class PWGame(QWidget):
 
         # n
         layout4 = QHBoxLayout()
-        self.n_value = QLabel(str(self.random_n), self)
+        self.n_value = QLabel(self.guess.getWord(), self)
         self.n_value.setFont(QtGui.QFont('Noto Sans KR', 20))
         self.n_value.setAlignment(Qt.AlignCenter)  # 가운데 정렬
         n = QFrame()
@@ -137,8 +137,7 @@ class PWGame(QWidget):
             # 사용자의 복호화 성공 여부에 따라 상태창 업데이트
             self.message.setText("Successfully decrypted!")
             self.score += self.guess.getLength()
-            self.startGame()
-            return
+            self.startGame(False)
 
         else:
             self.message.setText("Failed to unlock.")
@@ -159,12 +158,13 @@ class PWGame(QWidget):
         if self.sec == 0:  # or 정답 버튼이 눌리면:
             self.sec = 20
             self.life -= 1
+            self.message.setText("Time Over")
 
             if self.life <= 0:
                 self.gameOver()
 
             else:
-                self.startGame()
+                self.startGame(False)
 
         self.time_value.setNum(self.sec)
         self.sec -= 1
@@ -173,29 +173,32 @@ class PWGame(QWidget):
 
         result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
         if result == QMessageBox.Yes:
-            self.startGame()
+            self.startGame(True)
+
         else:
             self.close()
 
 
-    def startGame(self):
+    def startGame(self, isClear):
         self.Finished = False
         self.guess = Guess(self.word.randWord())
         self.score_value.setNum(self.score)
         self.sec = 20
-        
+
         if self.life <= 0:
             self.life = 3
-    
+
         self.life_label.setText('♥ ' * self.life)
         self.random_n = random.randrange(1, 6)
         self.n_value.setText(str(self.random_n))
         self.pwd.setText(self.lock.encryption(self.guess.getWord(), self.random_n))
-        self.message.clear()
+
+        if(isClear):
+            self.message.clear()
+
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = PWGame()
     sys.exit(app.exec_())
-
