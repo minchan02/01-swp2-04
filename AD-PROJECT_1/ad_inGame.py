@@ -75,7 +75,7 @@ class PWGame(QWidget):
 
         # n
         layout4 = QHBoxLayout()
-        self.n_value = QLabel(self.guess.getWord(), self)
+        self.n_value = QLabel(str(self.random_n), self)
         self.n_value.setFont(QtGui.QFont('Noto Sans KR', 20))
         self.n_value.setAlignment(Qt.AlignCenter)  # 가운데 정렬
         n = QFrame()
@@ -171,7 +171,8 @@ class PWGame(QWidget):
 
     def gameOver(self):  # 혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
 
-        result = QMessageBox.information(self, 'Game Over', 'Game Over\nRetry?', QMessageBox.Yes | QMessageBox.No)
+        result = QMessageBox.information(self, 'Game Over', "Game Over\nScore: "+ str(self.score) +"\nRetry?", QMessageBox.Yes | QMessageBox.No)
+
         if result == QMessageBox.Yes:
             self.startGame(True)
 
@@ -182,12 +183,13 @@ class PWGame(QWidget):
     def startGame(self, isClear):
         self.Finished = False
         self.guess = Guess(self.word.randWord())
-        self.score_value.setNum(self.score)
         self.sec = 20
 
-        if self.life <= 0:
+        if self.life <= 0: # 게임 오버해서 넘어왔는지
             self.life = 3
+            self.score = 0
 
+        self.score_value.setNum(self.score)
         self.life_label.setText('♥ ' * self.life)
         self.random_n = random.randrange(1, 6)
         self.n_value.setText(str(self.random_n))
