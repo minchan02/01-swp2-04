@@ -138,7 +138,10 @@ class PWGame(QWidget):
             self.message.setText("Successfully decrypted!")
             self.score += self.guess.getLength()
             self.startGame(False)
-
+        
+        #elif self.answer.text() == "Ans": # 어드민 함수
+        #    self.message.setText(self.guess.getWord())
+        
         else:
             self.message.setText("Failed to unlock.")
             self.life -= 1
