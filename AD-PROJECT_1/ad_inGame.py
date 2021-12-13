@@ -167,8 +167,10 @@ class PWGame(QWidget):
                 self.startGame(False)
 
         self.time_value.setNum(self.sec)
-        self.sec -= 1
-
+        
+        if not self.Finished: # Game Over 뜰 시 시간감소 정지
+            self.sec -= 1
+            
     def gameOver(self):  # 혹시 몰라서 게임 오버됐을 때 창 뜨게 만들어본 함수
 
         result = QMessageBox.information(self, 'Game Over', "Game Over\nScore: "+ str(self.score) +"\nRetry?", QMessageBox.Yes | QMessageBox.No)
